@@ -1,12 +1,15 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "gitclass.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    gitObject = new GitClass(this);
+
+    gitObject->startAutoUpdate(2000);
 
     ///////////////////////////////////////////////////////////////////////////
     // Connect button state with its text, repositoryPathLabel and interface //
@@ -15,9 +18,9 @@ MainWindow::MainWindow(QWidget *parent)
     {
         ui->errorLabel->clear();
 
-        ui->RepoButton->setText(checked == 0 ? "SHOW" : "UNDO");
-        ui->repositoryPathLabel->setEnabled(checked == 0 ? true : false);
-        ui->InterfaceFrame->setEnabled(checked == 1 ? true : false);
+        ui->RepoButton->setText(checked == false ? "SHOW" : "UNDO");
+        ui->repositoryPathLabel->setEnabled(checked == false ? true : false);
+        ui->InterfaceFrame->setEnabled(checked == true ? true : false);
 
         ///////////////////////////////////////////////
         //         Save git directory path.          //
@@ -25,38 +28,56 @@ MainWindow::MainWindow(QWidget *parent)
         ///////////////////////////////////////////////
         QString path = ui->repositoryPathLabel->toPlainText();
         QDir gitDir(path + "/.git");
-        if (gitDir.exists()) {
-            setRepoPath(path);
-
+        if (gitDir.exists())
+        {
             ////////////////////////////////////
             // After button is pressed, show  //
             // git status command on logLabel //
             ////////////////////////////////////
-            gitclass git(this);
-            QString result = git.getStatus(repoPath);
-            if(result == "ERROR")
+            gitObject->setRepoPath(path);
+            QString result = gitObject->getStatus();
+            QString shortResult = gitObject->getShortStatus();
+            if(result == "ERROR" || shortResult == "ERROR")
             {
                 setErrorLabelText("ERROR: git status return error");
                 ui->RepoButton->setChecked(false);
             }
             else
+            {
                 ui->logLabel->setPlainText(result);
+                ui->fileStatusLabel->setPlainText(shortResult);
+            }
         }
         else {
             setErrorLabelText("ERROR: Not a git repository");
             ui->RepoButton->setChecked(false);
+
+            gitObject->stopAutoUpdate();
+            return;
         }
     } );
-}
 
-void MainWindow::setRepoPath(const QString &path)
-{
-    repoPath = path;
+    connect(gitObject, &GitClass::fileStatusShortUpdated, this, [=](const QString &result)
+    {
+        if (ui->RepoButton->isChecked() == false)  // se il pulsante non è premuto, ignora
+            return;
+
+        if(result == "ERROR")
+        {
+            setErrorLabelText("ERROR: git status return error");
+            ui->RepoButton->setChecked(false);
+            gitObject->stopAutoUpdate();
+        }
+        else
+        {
+            ui->fileStatusLabel->setPlainText(result);
+        }
+    });
 }
 
 void MainWindow::setErrorLabelText(const QString &text)
 {
-    ui->errorLabel->insertPlainText(text);
+    ui->errorLabel->setPlainText(text);
 }
 
 MainWindow::~MainWindow()

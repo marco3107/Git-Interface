@@ -4,13 +4,29 @@
 #include <QObject>
 #include <QString>
 #include <QProcess>
+#include <QTimer>
 
-class gitclass : public QObject   // Maiuscola per convenzione
+class GitClass : public QObject
 {
     Q_OBJECT
 public:
-    explicit gitclass(QObject *parent = nullptr);
-    QString getStatus(const QString &repoPath);  // prende il percorso della repo come argomento
+    explicit GitClass(QObject *parent = nullptr);
+
+    void setRepoPath(const QString &path);
+    QString getStatus();
+    QString getShortStatus();
+    void startAutoUpdate(int intervalms);
+    void stopAutoUpdate();
+
+private:
+    QString repoPath;
+    QTimer *timer;
+
+private slots:
+    void updateShortStatus();
+
+signals:
+    void fileStatusShortUpdated(const QString &status);
 };
 
 #endif // GITCLASS_H

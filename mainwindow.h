@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QDir>
+#include "gitclass.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -16,12 +17,11 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget *parent = nullptr);
-    void setRepoPath(const QString &path);
     void setErrorLabelText(const QString &text);
     ~MainWindow();
 
 private:
     Ui::MainWindow *ui;
-    QString repoPath;
+    GitClass *gitObject;
 };
 #endif // MAINWINDOW_H
