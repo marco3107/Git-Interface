@@ -118,7 +118,7 @@
        <x>1012</x>
        <y>5</y>
        <width>275</width>
-       <height>771</height>
+       <height>380</height>
       </rect>
      </property>
      <property name="frameShape">
@@ -151,6 +151,22 @@
        <y>779</y>
        <width>276</width>
        <height>47</height>
+      </rect>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::Shape::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Shadow::Raised</enum>
+     </property>
+    </widget>
+    <widget class="QFrame" name="stagedFrame">
+     <property name="geometry">
+      <rect>
+       <x>1012</x>
+       <y>390</y>
+       <width>275</width>
+       <height>386</height>
       </rect>
      </property>
      <property name="frameShape">
