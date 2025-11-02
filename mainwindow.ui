@@ -86,32 +86,6 @@
       <enum>QFrame::Shadow::Raised</enum>
      </property>
     </widget>
-    <widget class="QFrame" name="windowInterfaceFrame">
-     <property name="geometry">
-      <rect>
-       <x>108</x>
-       <y>5</y>
-       <width>901</width>
-       <height>771</height>
-      </rect>
-     </property>
-     <property name="frameShape">
-      <enum>QFrame::Shape::StyledPanel</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Shadow::Raised</enum>
-     </property>
-     <widget class="QPlainTextEdit" name="logLabel">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>901</width>
-        <height>771</height>
-       </rect>
-      </property>
-     </widget>
-    </widget>
     <widget class="QFrame" name="branchesFrame">
      <property name="geometry">
       <rect>
@@ -176,6 +150,19 @@
       <enum>QFrame::Shadow::Raised</enum>
      </property>
     </widget>
+    <widget class="QPlainTextEdit" name="logLabel">
+     <property name="geometry">
+      <rect>
+       <x>108</x>
+       <y>5</y>
+       <width>901</width>
+       <height>771</height>
+      </rect>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
    </widget>
    <widget class="QLabel" name="createdByLabel">
     <property name="geometry">
@@ -200,7 +187,7 @@
      <rect>
       <x>540</x>
       <y>10</y>
-      <width>471</width>
+      <width>474</width>
       <height>27</height>
      </rect>
     </property>
