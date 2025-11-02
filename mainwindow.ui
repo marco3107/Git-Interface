@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Git-Interface</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QPlainTextEdit" name="repositoryPathLabel">
@@ -19,7 +19,7 @@
      <rect>
       <x>60</x>
       <y>10</y>
-      <width>301</width>
+      <width>471</width>
       <height>27</height>
      </rect>
     </property>
@@ -101,13 +101,23 @@
      <property name="frameShadow">
       <enum>QFrame::Shadow::Raised</enum>
      </property>
+     <widget class="QPlainTextEdit" name="logLabel">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>901</width>
+        <height>771</height>
+       </rect>
+      </property>
+     </widget>
     </widget>
     <widget class="QFrame" name="branchesFrame">
      <property name="geometry">
       <rect>
        <x>1012</x>
        <y>5</y>
-       <width>276</width>
+       <width>275</width>
        <height>771</height>
       </rect>
      </property>
@@ -167,6 +177,55 @@
     </property>
     <property name="text">
      <string>Created By Marco Rasia</string>
+    </property>
+   </widget>
+   <widget class="QPlainTextEdit" name="errorLabel">
+    <property name="geometry">
+     <rect>
+      <x>540</x>
+      <y>10</y>
+      <width>471</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="palette">
+     <palette>
+      <active>
+       <colorrole role="Text">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>255</red>
+          <green>0</green>
+          <blue>0</blue>
+         </color>
+        </brush>
+       </colorrole>
+      </active>
+      <inactive>
+       <colorrole role="Text">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>255</red>
+          <green>0</green>
+          <blue>0</blue>
+         </color>
+        </brush>
+       </colorrole>
+      </inactive>
+      <disabled/>
+     </palette>
+    </property>
+    <property name="acceptDrops">
+     <bool>false</bool>
+    </property>
+    <property name="verticalScrollBarPolicy">
+     <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
+    </property>
+    <property name="horizontalScrollBarPolicy">
+     <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
     </property>
    </widget>
   </widget>

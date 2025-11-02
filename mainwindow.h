@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QDir>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -15,9 +16,12 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget *parent = nullptr);
+    void setRepoPath(const QString &path);
+    void setErrorLabelText(const QString &text);
     ~MainWindow();
 
 private:
     Ui::MainWindow *ui;
+    QString repoPath;
 };
 #endif // MAINWINDOW_H
