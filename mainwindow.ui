@@ -147,7 +147,7 @@
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QTextEdit" name="fileStatusLabel">
+    <widget class="QTreeWidget" name="fileTreeStatus">
      <property name="geometry">
       <rect>
        <x>1012</x>
@@ -156,9 +156,24 @@
        <height>386</height>
       </rect>
      </property>
-     <property name="readOnly">
-      <bool>true</bool>
+     <property name="rootIsDecorated">
+      <bool>false</bool>
      </property>
+     <column>
+      <property name="text">
+       <string>File Name</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Status</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Staged</string>
+      </property>
+     </column>
     </widget>
    </widget>
    <widget class="QLabel" name="createdByLabel">

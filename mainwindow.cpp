@@ -60,7 +60,33 @@ MainWindow::MainWindow(QWidget *parent)
             else
             {
                 ui->logLabel->setPlainText(result);
-                ui->fileStatusLabel->setPlainText(shortResult);
+                ui->fileTreeStatus->clear();
+                QStringList shortStatusLines = shortResult.split('\n', Qt::SkipEmptyParts);
+                for (const QString &line : shortStatusLines)
+                {
+                    ///////////////////////////////////////////
+                    //            Example string             //
+                    // (1-staged)(2-not staged)(3-file name) //
+                    //        (M)(M)(mainwindow.cpp)         //
+                    ///////////////////////////////////////////
+                    QString stageStatus = line.at(0);
+                    QString unStageStatus = line.at(1);
+                    QString fileName = line.mid(3);
+
+                    QTreeWidgetItem *item = new QTreeWidgetItem(ui->fileTreeStatus);
+                    item->setText(0, fileName.trimmed());
+                    item->setText(1, unStageStatus);
+                    item->setFlags(item->flags() | Qt::ItemIsUserCheckable);
+                    item->setCheckState(2, (stageStatus != ' ' && stageStatus != '?')
+                                               ? Qt::Checked : Qt::Unchecked);
+
+                    if (unStageStatus == 'M' || stageStatus == 'M')
+                        item->setForeground(1, QBrush(Qt::darkYellow));
+                    else if (unStageStatus == 'A' || stageStatus == 'A')
+                        item->setForeground(1, QBrush(Qt::green));
+                    else if (unStageStatus == '?' || stageStatus == '?')
+                        item->setForeground(1, QBrush(Qt::blue));
+                }
                 gitObject->stopAutoUpdate();
                 return;
             }
@@ -76,7 +102,7 @@ MainWindow::MainWindow(QWidget *parent)
     //////////////////////////////////////////////////////////////
     // Connect fileStatusShortUpdated signal to lambda(funcion) //
     //////////////////////////////////////////////////////////////
-    connect(gitObject, &GitClass::fileStatusShortUpdated, this, [=](const QString &result)
+    connect(gitObject, &GitClass::fileStatusShortUpdated, this, [=](const QString &shortResult)
     {
         //////////////////////////////////////////////////////
         // If button is not checked/already pressed, ignore //
@@ -89,7 +115,7 @@ MainWindow::MainWindow(QWidget *parent)
         //        send an error and abort auto-update         //
         //              Otherwise, update label               //
         ////////////////////////////////////////////////////////
-        if(result == "ERROR")
+        if(shortResult == "ERROR")
         {
             setErrorLabelText("ERROR: git status return error");
             ui->RepoButton->setChecked(false);
@@ -97,7 +123,25 @@ MainWindow::MainWindow(QWidget *parent)
         }
         else
         {
-            ui->fileStatusLabel->setPlainText(result);
+            //ui->fileStatusLabel->setPlainText(shortResult);
+            QStringList shortStatusLines = shortResult.split('\n', Qt::SkipEmptyParts);
+            for (const QString &line : shortStatusLines)
+            {
+                QString status = line.left(1);
+                QString fileName = line.mid(2);
+
+                QTreeWidgetItem *item = new QTreeWidgetItem(ui->fileTreeStatus);
+                item->setText(0, fileName.trimmed());
+                item->setText(1, status);
+
+                // colore per lo stato
+                if (status == "M")
+                    item->setForeground(0, QBrush(Qt::yellow));
+                else if (status == "A")
+                    item->setForeground(0, QBrush(Qt::green));
+                else if (status == "?")
+                    item->setForeground(0, QBrush(Qt::blue));
+            }
         }
     });
 }
